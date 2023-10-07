@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
     color: '#000000',
   },
   selectedTipContainer: {
-    backgroundColor: '#313131',
+    backgroundColor: '#EB7C9C',
     borderRadius: 8,
     padding: 16,
     marginBottom: 16,
