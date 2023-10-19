@@ -107,7 +107,7 @@ const TipScreen = () => {
             <Text style={selectedTipContent}>{selectedTip.content}</Text>
             <Text style={selectedTipContent}>{selectedTip.description}</Text>
             <TouchableOpacity onPress={goBackToTips} style={backButton}>
-              <Text style={backButtonLabel}>Back to Tips</Text>
+              <Text style={backButtonLabel}>Regresar a los Tips</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
