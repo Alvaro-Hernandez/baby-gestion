@@ -1,19 +1,22 @@
-import React from 'react';
+import React, {useState} from 'react';
+import DocIDContext from '../Context/DocIDContext';
+import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
 import {Image} from 'react-native';
 
 // Importaciones de las vistas
+import SplashScreen from '../Views/SplashScreen';
+import LoginScreen from '../Views/LoginScreen';
 import HomeScreen from '../Views/HomeScreen';
 import TipScreen from '../Views/TipScreen';
 import PrimerScreen from '../Views/PrimerScreen';
 import FetusIAScreen from '../Views/FetusIAScreen';
 import ProfileScreen from '../Views/ProfileScreen';
-import LoginScreen from '../Views/LoginScreen'; // Asegúrate de importar tu pantalla de inicio de sesión.
-import MembershipDataDetailsScreen from '../Views/PrimerDetailsScreens.js/MembershipDataDetailsScreen';
-import CurrentGestationDetailsScreen from '../Views/PrimerDetailsScreens.js/CurrentGestationDetailsScreen';
-import ChildbirthAbortionDetailsScreen from '../Views/PrimerDetailsScreens.js/ChildbirthAbortionDetailsScreen';
-import PuerperiumDetailsScreen from '../Views/PrimerDetailsScreens.js/PuerperiumDetailsScreen';
+import MembershipDataDetailsScreen from '../Views/PrimerDetailsScreens/MembershipDataDetailsScreen';
+import CurrentGestationDetailsScreen from '../Views/PrimerDetailsScreens/CurrentGestationDetailsScreen';
+import ChildbirthAbortionDetailsScreen from '../Views/PrimerDetailsScreens/ChildbirthAbortionDetailsScreen';
+import PuerperiumDetailsScreen from '../Views/PrimerDetailsScreens/PuerperiumDetailsScreen';
 
 // Creación de navegadores
 const Tab = createBottomTabNavigator();
@@ -61,7 +64,12 @@ const AppNavigator = () => {
 // Navegador raíz que incluye el inicio de sesión y el flujo principal
 const RootNavigator = () => {
   return (
-    <RootStack.Navigator initialRouteName="Login">
+    <RootStack.Navigator initialRouteName="Splash">
+      <RootStack.Screen
+        name="Splash"
+        component={SplashScreen}
+        options={{headerShown: false}}
+      />
       <RootStack.Screen
         name="Login"
         component={LoginScreen}
@@ -73,6 +81,18 @@ const RootNavigator = () => {
         options={{headerShown: false}}
       />
     </RootStack.Navigator>
+  );
+};
+
+const RootNavigatorWithContext = () => {
+  const [docID, setDocID] = useState(null);
+
+  return (
+    <DocIDContext.Provider value={{docID, setDocID}}>
+      <NavigationContainer>
+        <RootNavigator />
+      </NavigationContainer>
+    </DocIDContext.Provider>
   );
 };
 
@@ -128,4 +148,5 @@ const tabScreenOptions = ({route}) => ({
   headerShown: false,
 });
 
-export default RootNavigator; // Estás exportando RootNavigator como predeterminado, ya que es el punto de entrada principal ahora.
+// Exportando RootNavigatorWithContext como predeterminado, ya que es el punto de entrada principal.
+export default RootNavigatorWithContext;
