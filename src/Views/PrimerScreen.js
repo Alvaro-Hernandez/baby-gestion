@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import DocIDContext from '../Context/DocIDContext';
 import imageDatosAfiliacion from '../assets/images/atencion-medica.png';
 import imageGestacionActual from '../assets/images/embarazada.png';
 import imagePartoAborto from '../assets/images/ultrasonido.png';
@@ -14,6 +15,9 @@ import imagePuerperio from '../assets/images/cadera.png';
 
 const PrimerScreen = () => {
   const navigation = useNavigation();
+  const {docID} = useContext(DocIDContext);
+
+  console.log(docID);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -21,28 +25,28 @@ const PrimerScreen = () => {
 
       <TouchableOpacity
         style={styles.card}
-        onPress={() => navigation.navigate('DatosFiliacionDetails')}>
+        onPress={() => navigation.navigate('DatosFiliacionDetails', {docID})}>
         <Image source={imageDatosAfiliacion} style={styles.cardImage} />
         <Text style={styles.cardText}>Datos de Filiación y Antecedentes</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         style={styles.card}
-        onPress={() => navigation.navigate('GestacionActualDetails')}>
+        onPress={() => navigation.navigate('GestacionActualDetails', {docID})}>
         <Image source={imageGestacionActual} style={styles.cardImage} />
         <Text style={styles.cardText}>Gestación actual</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         style={styles.card}
-        onPress={() => navigation.navigate('PartoAbortoDetails')}>
+        onPress={() => navigation.navigate('PartoAbortoDetails', {docID})}>
         <Image source={imagePartoAborto} style={styles.cardImage} />
         <Text style={styles.cardText}>Parto o Aborto</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         style={styles.card}
-        onPress={() => navigation.navigate('PuerperioDetails')}>
+        onPress={() => navigation.navigate('PuerperioDetails', {docID})}>
         <Image source={imagePuerperio} style={styles.cardImage} />
         <Text style={styles.cardText}>Puerperio</Text>
       </TouchableOpacity>
