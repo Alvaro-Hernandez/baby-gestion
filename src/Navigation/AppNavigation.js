@@ -11,7 +11,7 @@ import LoginScreen from '../Views/LoginScreen';
 import HomeScreen from '../Views/HomeScreen';
 import TipScreen from '../Views/TipScreen';
 import PrimerScreen from '../Views/PrimerScreen';
-import FetusIAScreen from '../Views/FetusIAScreen';
+import EvolutionScreen from '../Views/EvolutionScreen';
 import ProfileScreen from '../Views/ProfileScreen';
 import MembershipDataDetailsScreen from '../Views/PrimerDetailsScreens/MembershipDataDetailsScreen';
 import CurrentGestationDetailsScreen from '../Views/PrimerDetailsScreens/CurrentGestationDetailsScreen';
@@ -27,7 +27,10 @@ const PrimerStack = createStackNavigator();
 const PrimerStackNavigator = () => {
   return (
     <PrimerStack.Navigator initialRouteName="CartillaDetails">
-      <PrimerStack.Screen name="CartillaDetails" component={PrimerScreen} />
+      <PrimerStack.Screen
+        name="Detalles de Cartilla"
+        component={PrimerScreen}
+      />
       <PrimerStack.Screen
         name="DatosFiliacionDetails"
         component={MembershipDataDetailsScreen}
@@ -55,7 +58,7 @@ const AppNavigator = () => {
       <Tab.Screen name="Inicio" component={HomeScreen} />
       <Tab.Screen name="Tips" component={TipScreen} />
       <Tab.Screen name="Cartilla" component={PrimerStackNavigator} />
-      <Tab.Screen name="FetoIA" component={FetusIAScreen} />
+      <Tab.Screen name="Evolucion" component={EvolutionScreen} />
       <Tab.Screen name="Perfil" component={ProfileScreen} />
     </Tab.Navigator>
   );
@@ -114,10 +117,10 @@ const tabScreenOptions = ({route}) => ({
       iconSource = focused
         ? require('../assets/icons/primerSelected.png')
         : require('../assets/icons/primer.png');
-    } else if (route.name === 'FetoIA') {
+    } else if (route.name === 'Evolucion') {
       iconSource = focused
-        ? require('../assets/icons/fetusIASelected.png')
-        : require('../assets/icons/fetusIA.png');
+        ? require('../assets/icons/evolutionSeleccionado.png')
+        : require('../assets/icons/evolution.png');
     } else if (route.name === 'Perfil') {
       iconSource = focused
         ? require('../assets/icons/profileSelected.png')
