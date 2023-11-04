@@ -1,29 +1,12 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, Alert, Text} from 'react-native';
+import {View, StyleSheet, Text} from 'react-native';
 import {Input, Button} from 'react-native-elements';
-import firestore from '@react-native-firebase/firestore';
 import {useNavigation} from '@react-navigation/native';
+import {verificarCredencial} from '../functions/authService';
 
 const LoginScreen = () => {
   const [credencial, setCredencial] = useState('');
   const navigation = useNavigation();
-
-  const verificarCredencial = async () => {
-    try {
-      const docRef = firestore().collection('cartilla').doc(credencial);
-      const doc = await docRef.get();
-
-      if (doc.exists) {
-        // Si el documento existe, navega hacia la parte principal de tu aplicación
-        navigation.navigate('MainApp');
-        Alert.alert('Éxito', 'Acceso permitido');
-      } else {
-        Alert.alert('Error', 'Credencial perinatal no encontrada');
-      }
-    } catch (error) {
-      Alert.alert('Error', 'Hubo un error al verificar la credencial');
-    }
-  };
 
   return (
     <View style={styles.container}>
@@ -41,7 +24,7 @@ const LoginScreen = () => {
           title="Buscar"
           buttonStyle={styles.buttonStyle}
           titleStyle={styles.buttonTitleStyle}
-          onPress={verificarCredencial}
+          onPress={() => verificarCredencial(credencial, navigation)}
         />
       </View>
     </View>
