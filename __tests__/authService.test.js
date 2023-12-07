@@ -21,6 +21,9 @@ jest.mock('@react-native-firebase/firestore', () => {
   });
 });
 
+// Mock para setDocID
+const setDocIDMock = jest.fn();
+
 // Mock para navigation
 const navigationMock = {
   navigate: jest.fn(),
@@ -33,11 +36,19 @@ describe('Auth Service Tests', () => {
   });
 
   describe('verificarCredencial - Credencial Existente', () => {
-    it('navega hacia MainApp si la credencial existe', async () => {
-      mockGet.mockResolvedValue({exists: true});
+    it('navega hacia MainApp si la credencial existe y establece DocID', async () => {
+      const mockDocSnapshot = {exists: true};
+      const mockGetPromise = Promise.resolve(mockDocSnapshot);
+      const firestore = require('@react-native-firebase/firestore');
+      firestore().collection().doc().get.mockReturnValue(mockGetPromise);
 
-      await verificarCredencial('credencial_valida', navigationMock);
+      await verificarCredencial(
+        'credencial_valida',
+        navigationMock,
+        setDocIDMock,
+      );
 
+      expect(setDocIDMock).toHaveBeenCalledWith('credencial_valida');
       expect(navigationMock.navigate).toHaveBeenCalledWith('MainApp');
       expect(Alert.alert).toHaveBeenCalledWith('Éxito', 'Acceso permitido');
     });
