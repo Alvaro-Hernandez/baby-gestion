@@ -1,12 +1,14 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 import {Input, Button} from 'react-native-elements';
 import {useNavigation} from '@react-navigation/native';
 import {verificarCredencial} from '../functions/authService';
+import DocIDContext from '../Context/DocIDContext';
 
 const LoginScreen = () => {
   const [credencial, setCredencial] = useState('');
   const navigation = useNavigation();
+  const {setDocID} = useContext(DocIDContext);
 
   return (
     <View style={styles.container}>
@@ -24,7 +26,7 @@ const LoginScreen = () => {
           title="Buscar"
           buttonStyle={styles.buttonStyle}
           titleStyle={styles.buttonTitleStyle}
-          onPress={() => verificarCredencial(credencial, navigation)}
+          onPress={() => verificarCredencial(credencial, navigation, setDocID)}
         />
       </View>
     </View>
