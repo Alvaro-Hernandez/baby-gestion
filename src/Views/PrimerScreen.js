@@ -25,28 +25,28 @@ const PrimerScreen = () => {
 
       <TouchableOpacity
         style={styles.card}
-        onPress={() => navigation.navigate('DatosFiliacionDetails', {docID})}>
+        onPress={() => navigation.navigate('Datos de Afiliacion', {docID})}>
         <Image source={imageDatosAfiliacion} style={styles.cardImage} />
         <Text style={styles.cardText}>Datos de Filiación y Antecedentes</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         style={styles.card}
-        onPress={() => navigation.navigate('GestacionActualDetails', {docID})}>
+        onPress={() => navigation.navigate('Gestacion Actual', {docID})}>
         <Image source={imageGestacionActual} style={styles.cardImage} />
         <Text style={styles.cardText}>Gestación actual</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         style={styles.card}
-        onPress={() => navigation.navigate('PartoAbortoDetails', {docID})}>
+        onPress={() => navigation.navigate('Parto o Aborto', {docID})}>
         <Image source={imagePartoAborto} style={styles.cardImage} />
         <Text style={styles.cardText}>Parto o Aborto</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         style={styles.card}
-        onPress={() => navigation.navigate('PuerperioDetails', {docID})}>
+        onPress={() => navigation.navigate('Puerperio', {docID})}>
         <Image source={imagePuerperio} style={styles.cardImage} />
         <Text style={styles.cardText}>Puerperio</Text>
       </TouchableOpacity>
