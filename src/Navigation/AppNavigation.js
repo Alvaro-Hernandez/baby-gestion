@@ -32,19 +32,19 @@ const PrimerStackNavigator = () => {
         component={PrimerScreen}
       />
       <PrimerStack.Screen
-        name="DatosFiliacionDetails"
+        name="Datos de Afiliacion"
         component={MembershipDataDetailsScreen}
       />
       <PrimerStack.Screen
-        name="GestacionActualDetails"
+        name="Gestacion Actual"
         component={CurrentGestationDetailsScreen}
       />
       <PrimerStack.Screen
-        name="PartoAbortoDetails"
+        name="Parto o Aborto"
         component={ChildbirthAbortionDetailsScreen}
       />
       <PrimerStack.Screen
-        name="PuerperioDetails"
+        name="Puerperio"
         component={PuerperiumDetailsScreen}
       />
     </PrimerStack.Navigator>
@@ -58,7 +58,7 @@ const AppNavigator = () => {
       <Tab.Screen name="Inicio" component={HomeScreen} />
       <Tab.Screen name="Tips" component={TipScreen} />
       <Tab.Screen name="Cartilla" component={PrimerStackNavigator} />
-      <Tab.Screen name="Evolucion" component={EvolutionScreen} />
+      <Tab.Screen name="FetoIA" component={EvolutionScreen} />
       <Tab.Screen name="Perfil" component={ProfileScreen} />
     </Tab.Navigator>
   );
@@ -117,7 +117,7 @@ const tabScreenOptions = ({route}) => ({
       iconSource = focused
         ? require('../assets/icons/primerSelected.png')
         : require('../assets/icons/primer.png');
-    } else if (route.name === 'Evolucion') {
+    } else if (route.name === 'FetoIA') {
       iconSource = focused
         ? require('../assets/icons/evolutionSeleccionado.png')
         : require('../assets/icons/evolution.png');
