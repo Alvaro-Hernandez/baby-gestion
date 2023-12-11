@@ -1,5 +1,14 @@
 import React, {useEffect, useState, useContext} from 'react';
-import {ImageBackground, StyleSheet, Text, View} from 'react-native';
+import {
+  Modal,
+  StyleSheet,
+  Text,
+  View,
+  ImageBackground,
+  TouchableHighlight,
+  TouchableOpacity,
+} from 'react-native';
+import {WebView} from 'react-native-webview';
 import firestore from '@react-native-firebase/firestore';
 import DocIDContext from '../Context/DocIDContext';
 
@@ -7,6 +16,8 @@ const HomeScreen = () => {
   const {docID} = useContext(DocIDContext);
   const [closestEvent, setClosestEvent] = useState(null);
   const [moduloFiliacion, setModuloFiliacion] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [relevantArticle, setRelevantArticle] = useState(null);
 
   const convertToDate = obj => {
     if (obj instanceof Date) {
@@ -66,6 +77,20 @@ const HomeScreen = () => {
     fetchData();
   }, [docID]);
 
+  useEffect(() => {
+    const fetchArticles = async () => {
+      const articlesCollection = await firestore()
+        .collection('articulos_relevantes')
+        .get();
+      const articles = articlesCollection.docs.map(doc => doc.data());
+      const randomArticle =
+        articles[Math.floor(Math.random() * articles.length)];
+      setRelevantArticle(randomArticle);
+    };
+
+    fetchArticles();
+  }, []);
+
   const formatDate = date => {
     if (!(date instanceof Date) || isNaN(date)) {
       console.error('formatDate: la fecha proporcionada no es válida.');
@@ -109,6 +134,17 @@ const HomeScreen = () => {
     return 'No tienes citas pendientes🥰';
   };
 
+  const getBackgroundImage = category => {
+    switch (category) {
+      case 1:
+        return require('../assets/images/imagesCategory/salud.jpg');
+      case 2:
+        return require('../assets/images/imagesCategory/nutricion.jpg');
+      case 3:
+        return require('../assets/images/imagesCategory/cuidados.jpg');
+    }
+  };
+
   return (
     <View style={styles.container}>
       {moduloFiliacion?.DatosAfiliacion?.map((item, index) => (
@@ -131,8 +167,38 @@ const HomeScreen = () => {
         </ImageBackground>
       </View>
       <View style={styles.articlesContainer}>
-        <Text style={styles.eventTitle}>Articulos de interés</Text>
+        <Text style={styles.articleSection}>Artículos de interés</Text>
+        {relevantArticle && (
+          <TouchableHighlight
+            onPress={() => setModalVisible(true)}
+            style={styles.articleTouchable}>
+            <ImageBackground
+              source={getBackgroundImage(relevantArticle.categoria)}
+              style={styles.articleImage}
+              resizeMode="cover">
+              <View style={styles.blurOverlay} />
+              <Text style={styles.articleText}>{relevantArticle.nombre}</Text>
+            </ImageBackground>
+          </TouchableHighlight>
+        )}
       </View>
+      <Modal
+        animationType="slide"
+        transparent={false}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+        style={styles.modal}>
+        <WebView source={{uri: relevantArticle?.link}} />
+        <TouchableOpacity
+          onPress={() => {
+            setModalVisible(!modalVisible);
+          }}
+          style={styles.closeButton}>
+          <Text style={styles.closeButtonText}>Cerrar</Text>
+        </TouchableOpacity>
+      </Modal>
     </View>
   );
 };
@@ -148,7 +214,7 @@ const styles = StyleSheet.create({
     height: 450,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: -180,
+    marginTop: -5,
   },
   imageStyle: {
     width: '100%',
@@ -199,10 +265,53 @@ const styles = StyleSheet.create({
     fontFamily: 'Outfit-Bold',
   },
   articlesContainer: {
+    display: 'flex',
+    width: '100%',
     marginTop: 20,
-    alignItems: 'left',
-    textAlign: 'left',
-    marginLeft: -150,
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  blurOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+  },
+  articleSection: {
+    color: '#484C52',
+    fontFamily: 'Outfit-Bold',
+    fontSize: 25,
+    marginRight: 160,
+  },
+  articleTouchable: {
+    width: '90%',
+    height: 150,
+    borderRadius: 10,
+  },
+  articleImage: {
+    width: '100%',
+    height: '100%',
+  },
+  articleText: {
+    width: '50%',
+    color: 'black',
+    fontFamily: 'Outfit-Bold',
+    fontSize: 20,
+    marginTop: 10,
+    marginLeft: 10,
+    zIndex: 10,
+  },
+  closeButton: {
+    backgroundColor: '#eb7c9c',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 5,
+    alignSelf: 'center',
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  closeButtonText: {
+    color: 'white',
+    fontSize: 18,
+    fontFamily: 'Outfit-Bold',
   },
 });
 
